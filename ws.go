@@ -1,14 +1,14 @@
 package main
 
 import (
-	"log"
-	"net/http"
 	"fmt"
 	"github.com/gorilla/websocket"
+	"log"
+	"net/http"
 )
 
 var clients = make(map[*websocket.Conn]bool) // connected clients
-var broadcast = make(chan person)           // broadcast channel
+var broadcast = make(chan person)            // broadcast channel
 
 // Configure the upgrader
 var upgrader = websocket.Upgrader{
@@ -18,12 +18,12 @@ var upgrader = websocket.Upgrader{
 }
 
 type person struct {
-		Session string
-    Char string
-    HeroY  float64
-		HeroX  float64
-		MonsterY  float64
-		MonsterX  float64
+	Session  string
+	Char     string
+	HeroY    float64
+	HeroX    float64
+	MonsterY float64
+	MonsterX float64
 }
 
 func main() {
