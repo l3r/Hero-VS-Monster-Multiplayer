@@ -88,23 +88,19 @@ var update = function (modifier, ws) {
 
 	if (37 in keysDown || 38 in keysDown || 39 in keysDown || 40 in keysDown){
 		if (user === "hero" || user === "monster"){
-			ws.send(JSON.stringify({ Session: session, Char: user, HeroY: hero.y, HeroX: hero.x, MonsterY: monster.y, MonsterX: monster.x }));
+			ws.send(JSON.stringify({ Session: session, MonstersCaught: monstersCaught, HeroY: hero.y, HeroX: hero.x, MonsterY: monster.y, MonsterX: monster.x }));
 		}
 	}
 
 	ws.onmessage = function (e) {
-		var currSes;
-		JSON.parse(e.data, function(k, v) {
-			if (k === 'Session') {
-				currSes = v;
-			}
-			if (currSes === session){
-				if (k === 'HeroX') { hero.x = v; }
-				if (k === 'HeroY') { hero.y = v; }
-				if (k === 'MonsterY') { monster.y = v; }
-				if (k === 'MonsterX') { monster.x = v; }
-			}
-		});
+		var resp = JSON.parse(e.data);
+		if (resp['Session'] === session){
+			monster.y = resp['MonsterY'];
+			monster.x = resp['MonsterX'];
+			hero.x = resp['HeroX'];
+			hero.y = resp['HeroY'];
+			monstersCaught = resp['MonstersCaught'];
+		}
 	};
 
 	if (
@@ -132,11 +128,11 @@ var render = function () {
 	}
 
 	// Score
-	// ctx.fillStyle = "rgb(250, 250, 250)";
-	// ctx.font = "24px Helvetica";
-	// ctx.textAlign = "left";
-	// ctx.textBaseline = "top";
-	// ctx.fillText("Capturas do monstro: " + monstersCaught, 32, 32);
+	ctx.fillStyle = "rgb(250, 250, 250)";
+	ctx.font = "24px Helvetica";
+	ctx.textAlign = "left";
+	ctx.textBaseline = "top";
+	ctx.fillText("Capturas do monstro: " + monstersCaught, 32, 32);
 };
 
 var main = function (ws) {
