@@ -34,10 +34,10 @@ func main() {
 	// Configure websocket route
 	http.HandleFunc("/ws", handleConnections)
 
-	// Start listening for incoming chat messages
+	// Start listening for incoming messages
 	go handleMessages()
 
-	// Start the server on localhost port 8000 and log any errors
+	// Start the server on localhost port 8080 and log any errors
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
